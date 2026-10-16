@@ -57,7 +57,7 @@ export function exampleDoc(): Doc {
         ],
         memo: '`AuthApi`로 서버와 통신하고 토큰은 secure storage에 보관.',
         color: '#0ea5e9',
-        position: { x: 0, y: 340 },
+        position: { x: 0, y: 320 },
       },
       {
         id: 'n_authapi',
@@ -78,7 +78,7 @@ export function exampleDoc(): Doc {
         ],
         memo: 'REST 클라이언트(dio) 래퍼.',
         color: '#64748b',
-        position: { x: 440, y: 340 },
+        position: { x: 540, y: 320 },
       },
       {
         id: 'n_loginusecase',
@@ -99,7 +99,7 @@ export function exampleDoc(): Doc {
         ],
         memo: '입력 검증 후 `AuthRepository.login` 호출.',
         color: '#10b981',
-        position: { x: -440, y: 0 },
+        position: { x: -540, y: 0 },
       },
       {
         id: 'n_user',
@@ -114,7 +114,7 @@ export function exampleDoc(): Doc {
         methods: [],
         memo: '불변 모델. `freezed` 적용 예정.',
         color: '#f59e0b',
-        position: { x: 440, y: 0 },
+        position: { x: 540, y: 0 },
       },
       {
         id: 'n_authfailure',
@@ -128,7 +128,7 @@ export function exampleDoc(): Doc {
         methods: [],
         memo: '',
         color: '#ef4444',
-        position: { x: -440, y: 340 },
+        position: { x: -540, y: 320 },
       },
     ],
     relations: [

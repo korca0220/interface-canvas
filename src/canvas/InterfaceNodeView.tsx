@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Handle, Position, useConnection, type NodeProps } from '@xyflow/react'
-import { formatFieldType, formatParams } from '../model/signature'
+import { formatField, formatFieldType, formatMethod, formatParams } from '../model/signature'
 import type { IfaceFlowNode } from './types'
 import { useLod } from './lod'
 
@@ -39,7 +39,7 @@ function InterfaceNodeViewImpl({ id, data, selected }: NodeProps<IfaceFlowNode>)
       {lod !== 'min' && iface.fields.length > 0 && (
         <div className="ic-section">
           {iface.fields.map((f, i) => (
-            <div className="ic-member" key={i}>
+            <div className="ic-member" key={i} title={formatField(f)}>
               {isEnum || lod === 'compact' ? (
                 <span className="ic-m-name">{f.name}</span>
               ) : (
@@ -55,7 +55,7 @@ function InterfaceNodeViewImpl({ id, data, selected }: NodeProps<IfaceFlowNode>)
       {lod !== 'min' && iface.methods.length > 0 && (
         <div className="ic-section">
           {iface.methods.map((m, i) => (
-            <div className="ic-member" key={i}>
+            <div className="ic-member" key={i} title={formatMethod(m)}>
               {lod === 'compact' ? (
                 <span className="ic-m-name">{m.name}()</span>
               ) : (

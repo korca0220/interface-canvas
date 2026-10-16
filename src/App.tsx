@@ -2,6 +2,7 @@ import { ReactFlowProvider } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { Canvas } from './canvas/Canvas'
 import { Toolbar } from './ui/Toolbar'
+import { Panel } from './panel/Panel'
 import { useDocStore } from './model/store'
 import { exampleDoc } from './model/example'
 
@@ -14,6 +15,7 @@ export function App() {
         <Toolbar />
         <div className="main">
           <Canvas />
+          <Panel />
         </div>
       </div>
     </ReactFlowProvider>
