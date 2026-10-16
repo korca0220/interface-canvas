@@ -21,6 +21,16 @@ npm run dev        # http://localhost:5173
 Chrome 기준입니다. 파일 덮어쓰기 저장(File System Access API)은 Chromium 계열에서만 됩니다.
 다른 브라우저에서는 열기는 파일 선택, 저장은 다운로드로 대체됩니다.
 
+## 배포 (GitHub Pages)
+
+배포 주소: **https://korca0220.github.io/interface-canvas/**
+
+`main`에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 테스트와 빌드를 거쳐 Pages에 배포합니다.
+서버 없는 정적 앱이라 `dist/`만 올리면 됩니다. `vite.config.ts`의 `base: './'` 덕분에 하위 경로와 로컬 양쪽에서 같은 빌드가 동작합니다.
+
+- 앱만 공유되고 데이터는 공유되지 않습니다. 문서는 각자 브라우저(localStorage)에 저장되므로, 설계를 주고받으려면 `.icanvas.json` 파일을 보내세요.
+- 브라우저 저장 공간은 주소마다 따로라서, localhost에서 작업한 문서는 배포 주소에서 보이지 않습니다. 파일로 저장한 뒤 열어 주세요.
+
 ## 사용법
 
 - **노드 만들기**: 캔버스 빈 곳 더블클릭, 툴바 `+ 인터페이스`, 또는 `N`
