@@ -1,18 +1,21 @@
+import { ReactFlowProvider } from '@xyflow/react'
+import '@xyflow/react/dist/style.css'
+import { Canvas } from './canvas/Canvas'
+import { Toolbar } from './ui/Toolbar'
 import { useDocStore } from './model/store'
 import { exampleDoc } from './model/example'
 
 useDocStore.getState().loadDoc(exampleDoc())
 
 export function App() {
-  const doc = useDocStore((s) => s.doc)
   return (
-    <div className="app">
-      <h1>{doc.name}</h1>
-      <ul>
-        {doc.interfaces.map((n) => (
-          <li key={n.id}>{n.name}</li>
-        ))}
-      </ul>
-    </div>
+    <ReactFlowProvider>
+      <div className="app">
+        <Toolbar />
+        <div className="main">
+          <Canvas />
+        </div>
+      </div>
+    </ReactFlowProvider>
   )
 }
