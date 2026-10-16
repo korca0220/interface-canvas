@@ -6,6 +6,7 @@ import { Toolbar } from './ui/Toolbar'
 import { Toast } from './ui/Toast'
 import { DocumentTitle } from './ui/DocumentTitle'
 import { useShortcuts } from './ui/useShortcuts'
+import { ExportDialog } from './export/ExportDialog'
 
 function Shell() {
   useShortcuts()
@@ -16,6 +17,7 @@ function Shell() {
         <Canvas />
         <Panel />
       </div>
+      <ExportDialog />
       <Toast />
       <DocumentTitle />
     </div>

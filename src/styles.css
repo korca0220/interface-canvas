@@ -123,7 +123,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); box-sha
 .ic-node {
   --node-color: #64748b;
   min-width: 180px;
-  max-width: 460px;
+  max-width: 540px;
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-top: 4px solid var(--node-color);
@@ -344,3 +344,42 @@ body.resizing { cursor: col-resize; user-select: none; }
 }
 .toast.error { background: var(--danger); color: #fff; }
 @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(15, 23, 42, 0.35);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8vh;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 84vh;
+  overflow: hidden;
+}
+.export-modal { width: min(880px, 92vw); }
+.modal-head, .modal-foot { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
+.modal-head { border-bottom: 1px solid var(--border); }
+.modal-foot { border-top: 1px solid var(--border); }
+.check { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.code-view {
+  margin: 0;
+  padding: 14px 16px;
+  overflow: auto;
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  background: var(--surface-2);
+  user-select: text;
+  tab-size: 2;
+}

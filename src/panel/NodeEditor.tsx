@@ -5,6 +5,8 @@ import { KINDS, NODE_COLORS, type Field, type InterfaceKind, type Method } from 
 import { MarkdownEditor } from './MarkdownEditor'
 import { MemberEditor } from './MemberEditor'
 import { RelationList } from './RelationList'
+import { toDart } from '../export/dart'
+import { copyText } from '../export/ExportDialog'
 
 const KIND_HELP: Record<InterfaceKind, string> = {
   interface: 'abstract interface class',
@@ -87,6 +89,13 @@ export function NodeEditor({ id }: { id: string }) {
       <MarkdownEditor value={iface.memo} onChange={(memo) => update(id, { memo }, { coalesce: `memo:${id}` })} />
 
       <RelationList nodeId={id} />
+
+      <div className="row">
+        <button onClick={() => void copyText(toDart(useDocStore.getState().doc, [id]), 'Dart 코드가')}>Dart 코드 복사</button>
+        <button className="danger" onClick={() => useDocStore.getState().deleteItems([id], [])}>
+          삭제
+        </button>
+      </div>
     </div>
   )
 }

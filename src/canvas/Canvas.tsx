@@ -6,6 +6,7 @@ import {
   MiniMap,
   ReactFlow,
   useReactFlow,
+  ViewportPortal,
   type Connection,
   type EdgeChange,
   type NodeChange,
@@ -139,7 +140,6 @@ export function Canvas() {
 
   return (
     <div className="canvas" onDoubleClick={onDoubleClick}>
-      <EdgeMarkers />
       <ReactFlow<IfaceFlowNode, RelationFlowEdge>
         nodes={nodes}
         edges={edges}
@@ -165,6 +165,9 @@ export function Canvas() {
         fitView
         fitViewOptions={{ padding: 0.2 }}
       >
+        <ViewportPortal>
+          <EdgeMarkers />
+        </ViewportPortal>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
         <MiniMap pannable zoomable nodeColor={(n) => (n.data as IfaceFlowNode['data']).iface.color ?? '#94a3b8'} />
         <Controls />

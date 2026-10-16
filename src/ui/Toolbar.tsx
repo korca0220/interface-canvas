@@ -1,4 +1,6 @@
 import { useReactFlow } from '@xyflow/react'
+import { canvasToPng } from '../export/png'
+import { downloadBlob } from '../io/file'
 import { useDocStore } from '../model/store'
 import { isDirty, loadExample, newDocument, openFile, saveFile, saveFileAs, useFileStore } from '../io/file'
 import { useUiStore } from './uiStore'
@@ -11,9 +13,20 @@ export function Toolbar() {
   const canRedo = useDocStore((s) => s.future.length > 0)
   const file = useFileStore()
   const panelOpen = useUiStore((s) => s.panelOpen)
-  const { fitView } = useReactFlow()
+  const { fitView, getNodes } = useReactFlow()
   const addAtCenter = useAddAtCenter()
   const dirty = isDirty(doc, file)
+  const hasSelection = useDocStore((s) => s.selection.nodes.length > 0)
+
+  const exportPng = async () => {
+    try {
+      const url = await canvasToPng(getNodes())
+      const blob = await (await fetch(url)).blob()
+      downloadBlob(`${(doc.name.trim() || 'canvas').replace(/[\\/:*?"<>|\s]+/g, '_')}.png`, blob)
+    } catch (e) {
+      useUiStore.getState().showToast(`PNG 내보내기 실패: ${(e as Error).message}`, 'error')
+    }
+  }
 
   return (
     <header className="toolbar">
@@ -58,6 +71,14 @@ export function Toolbar() {
       <div className="tb-spacer" />
 
       <div className="tb-group">
+        <Menu
+          className="menu-right"
+          label="내보내기"
+          items={[
+            { label: 'Dart / Mermaid…', shortcut: '⌘E', onClick: () => useUiStore.getState().openExport(hasSelection ? 'selection' : 'all') },
+            { label: 'PNG 이미지', onClick: () => void exportPng() },
+          ]}
+        />
         <button className="ghost" onClick={() => useUiStore.getState().togglePanel()} title="패널 토글 (⌘\)">
           {panelOpen ? '패널 숨기기' : '패널 보기'}
         </button>
