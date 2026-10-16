@@ -38,6 +38,8 @@ export type DocState = {
   addRelation: (from: string, to: string, type?: RelationType) => string | null
   updateRelation: (id: string, patch: Partial<Omit<Relation, 'id'>>, opts?: CommitOptions) => void
   updateDocMeta: (patch: Partial<Pick<Doc, 'name' | 'memo'>>, opts?: CommitOptions) => void
+  duplicateInterfaces: (ids: string[]) => string[]
+  selectAll: () => void
 }
 
 function pruneSelection(sel: Selection, doc: Doc): Selection {
@@ -189,6 +191,40 @@ export const useDocStore = create<DocState>()((set, get) => ({
     get().commit((d) => ({ ...d, relations: d.relations.map((r) => (r.id === id ? { ...r, ...patch } : r)) }), opts),
 
   updateDocMeta: (patch, opts) => get().commit((d) => ({ ...d, ...patch }), opts),
+
+  duplicateInterfaces: (ids) => {
+    const doc = get().doc
+    const idSet = new Set(ids)
+    const sources = doc.interfaces.filter((n) => idSet.has(n.id))
+    if (!sources.length) return []
+    const idMap = new Map<string, string>()
+    let working = doc
+    const copies: InterfaceNode[] = []
+    for (const src of sources) {
+      const copy: InterfaceNode = {
+        ...structuredClone(src),
+        id: newId('n'),
+        name: uniqueName(working, src.name + 'Copy'),
+        position: { x: src.position.x + 40, y: src.position.y + 40 },
+      }
+      idMap.set(src.id, copy.id)
+      copies.push(copy)
+      working = { ...working, interfaces: [...working.interfaces, copy] }
+    }
+    // 복제 대상끼리의 관계도 함께 복제한다
+    const rels: Relation[] = doc.relations
+      .filter((r) => idMap.has(r.from) && idMap.has(r.to))
+      .map((r) => ({ ...r, id: newId('r'), from: idMap.get(r.from)!, to: idMap.get(r.to)! }))
+    get().commit((d) => ({ ...d, interfaces: [...d.interfaces, ...copies], relations: [...d.relations, ...rels] }))
+    const newIds = copies.map((c) => c.id)
+    set({ selection: { nodes: newIds, edges: [] } })
+    return newIds
+  },
+
+  selectAll: () => {
+    const doc = get().doc
+    set({ selection: { nodes: doc.interfaces.map((n) => n.id), edges: [] } })
+  },
 }))
 
 function sameIds(a: string[], b: string[]): boolean {

@@ -303,3 +303,44 @@ body.resizing { cursor: col-resize; user-select: none; }
 .kbd { font-family: var(--mono); font-size: 10px; color: var(--text-faint); border: 1px solid var(--border); border-radius: 3px; padding: 0 4px; }
 .line-preview { stroke: var(--text-muted); stroke-width: 1.5; }
 .line-preview .hollow { fill: var(--surface); }
+
+/* Toolbar extras */
+.doc-name { display: flex; flex-direction: column; line-height: 1.2; }
+.file-name { font-size: 11px; font-weight: 400; color: var(--text-faint); }
+.menu { position: relative; }
+.menu > button.active { background: var(--surface-2); }
+.menu-pop {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 50;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+.menu-right .menu-pop { left: auto; right: 0; }
+.menu-item { border: none; display: flex; justify-content: space-between; gap: 16px; text-align: left; padding: 6px 10px; background: transparent; }
+.menu-shortcut { color: var(--text-faint); font-size: 12px; }
+.menu-sep { height: 1px; background: var(--border); margin: 4px 0; }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: var(--text);
+  color: var(--bg);
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  max-width: min(640px, 90vw);
+  animation: toast-in 0.15s ease-out;
+}
+.toast.error { background: var(--danger); color: #fff; }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } }

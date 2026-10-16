@@ -70,6 +70,23 @@ describe('doc store history', () => {
   })
 })
 
+describe('duplicateInterfaces', () => {
+  beforeEach(() => s().loadDoc(emptyDoc('t')))
+  it('선택 노드와 그 사이의 관계를 복제하고 복제본을 선택한다', () => {
+    const a = s().addInterface({ name: 'A' })
+    const b = s().addInterface({ name: 'B' })
+    s().addRelation(a, b, 'implements')
+    const ids = s().duplicateInterfaces([a, b])
+    expect(ids).toHaveLength(2)
+    expect(s().doc.interfaces.map((n) => n.name)).toEqual(['A', 'B', 'ACopy', 'BCopy'])
+    expect(s().doc.relations).toHaveLength(2)
+    expect(s().doc.relations[1]).toMatchObject({ from: ids[0], to: ids[1], type: 'implements' })
+    expect(s().selection.nodes).toEqual(ids)
+    s().undo()
+    expect(s().doc.interfaces).toHaveLength(2)
+  })
+})
+
 describe('guessRelationType', () => {
   it('FooImpl → Foo(interface)는 implements', () => {
     const impl = createInterface({ name: 'AuthRepositoryImpl', kind: 'class' })

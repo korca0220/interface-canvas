@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -13,6 +13,7 @@ import {
 } from '@xyflow/react'
 import { useDocStore } from '../model/store'
 import { useUiStore } from '../ui/uiStore'
+import { useFileStore } from '../io/file'
 import { InterfaceNodeView } from './InterfaceNodeView'
 import { EdgeMarkers, RelationEdge } from './RelationEdge'
 import type { IfaceFlowNode, RelationFlowEdge } from './types'
@@ -28,9 +29,18 @@ export function Canvas() {
   const selection = useDocStore((s) => s.selection)
   const highlightId = useUiStore((s) => s.highlightId)
   const colorMode = useUiStore((s) => s.colorMode)
-  const { screenToFlowPosition } = useReactFlow()
+  const epoch = useFileStore((s) => s.epoch)
+  const { screenToFlowPosition, fitView } = useReactFlow()
   // React Flow가 측정한 노드 크기. 문서 모델에는 넣지 않는 화면 전용 상태.
   const [measured, setMeasured] = useState<Record<string, Size>>({})
+
+  // 다른 문서를 열면 측정값을 비우고 화면을 맞춘다
+  useEffect(() => {
+    if (epoch === 0) return
+    setMeasured({})
+    const t = window.setTimeout(() => void fitView({ padding: 0.2, duration: 200 }), 80)
+    return () => window.clearTimeout(t)
+  }, [epoch, fitView])
 
   // 문서 모델 → React Flow 노드 (파생)
   const nodes = useMemo<IfaceFlowNode[]>(() => {
