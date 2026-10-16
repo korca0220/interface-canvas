@@ -17,6 +17,7 @@ import { useUiStore } from '../ui/uiStore'
 import { useFileStore } from '../io/file'
 import { InterfaceNodeView } from './InterfaceNodeView'
 import { EdgeMarkers, RelationEdge } from './RelationEdge'
+import { ZoomCssVar } from './lod'
 import type { IfaceFlowNode, RelationFlowEdge } from './types'
 
 const nodeTypes = { iface: InterfaceNodeView }
@@ -158,7 +159,7 @@ export function Canvas() {
         multiSelectionKeyCode={['Meta', 'Shift']}
         selectionKeyCode="Shift"
         zoomOnDoubleClick={false}
-        minZoom={0.1}
+        minZoom={0.15}
         maxZoom={2.5}
         colorMode={colorMode}
         connectionRadius={30}
@@ -171,6 +172,7 @@ export function Canvas() {
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
         <MiniMap pannable zoomable nodeColor={(n) => (n.data as IfaceFlowNode['data']).iface.color ?? '#94a3b8'} />
         <Controls />
+        <ZoomCssVar />
       </ReactFlow>
     </div>
   )

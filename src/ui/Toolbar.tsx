@@ -13,6 +13,9 @@ export function Toolbar() {
   const canRedo = useDocStore((s) => s.future.length > 0)
   const file = useFileStore()
   const panelOpen = useUiStore((s) => s.panelOpen)
+  const colorMode = useUiStore((s) => s.colorMode)
+  const nextMode = colorMode === 'system' ? 'light' : colorMode === 'light' ? 'dark' : 'system'
+  const modeLabel = { system: '테마: 시스템', light: '테마: 라이트', dark: '테마: 다크' }[colorMode]
   const { fitView, getNodes } = useReactFlow()
   const addAtCenter = useAddAtCenter()
   const dirty = isDirty(doc, file)
@@ -71,6 +74,9 @@ export function Toolbar() {
       <div className="tb-spacer" />
 
       <div className="tb-group">
+        <button className="ghost search-btn" onClick={() => useUiStore.getState().setSearchOpen(true)} title="인터페이스 검색 (⌘K)">
+          검색 <span className="kbd">⌘K</span>
+        </button>
         <Menu
           className="menu-right"
           label="내보내기"
@@ -79,6 +85,9 @@ export function Toolbar() {
             { label: 'PNG 이미지', onClick: () => void exportPng() },
           ]}
         />
+        <button className="ghost" onClick={() => useUiStore.getState().setColorMode(nextMode)} title="클릭해서 전환 (시스템 → 라이트 → 다크)">
+          {modeLabel}
+        </button>
         <button className="ghost" onClick={() => useUiStore.getState().togglePanel()} title="패널 토글 (⌘\)">
           {panelOpen ? '패널 숨기기' : '패널 보기'}
         </button>

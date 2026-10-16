@@ -162,7 +162,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); box-sha
 
 .ic-node.lod-min { min-width: 160px; }
 .ic-node.lod-min .ic-node-header { padding: 14px 16px; }
-.ic-node.lod-min .ic-name { font-size: 26px; }
+.ic-node.lod-min .ic-name { font-size: min(calc(13px / var(--zoom, 0.3)), 64px); }
 .ic-node.lod-compact .ic-name { font-size: 15px; }
 
 .ic-handle.react-flow__handle {
@@ -383,3 +383,14 @@ body.resizing { cursor: col-resize; user-select: none; }
   user-select: text;
   tab-size: 2;
 }
+
+/* Search */
+.search-modal { width: min(560px, 92vw); }
+.search-input { border: none; border-bottom: 1px solid var(--border); border-radius: 0; padding: 14px 16px; font-size: 15px; box-shadow: none !important; }
+.search-results { list-style: none; margin: 0; padding: 6px; overflow-y: auto; max-height: 50vh; }
+.search-item { width: 100%; display: flex; align-items: center; gap: 8px; border: none; background: transparent; text-align: left; padding: 7px 10px; }
+.search-item.active { background: var(--accent-soft); }
+.search-match { font-size: 11px; }
+.search-empty { padding: 12px; }
+.search-foot { font-size: 12px; }
+.search-btn { display: inline-flex; align-items: center; gap: 6px; }

@@ -7,9 +7,12 @@ import { Toast } from './ui/Toast'
 import { DocumentTitle } from './ui/DocumentTitle'
 import { useShortcuts } from './ui/useShortcuts'
 import { ExportDialog } from './export/ExportDialog'
+import { SearchDialog } from './ui/SearchDialog'
+import { useTheme } from './ui/useTheme'
 
 function Shell() {
   useShortcuts()
+  useTheme()
   return (
     <div className="app">
       <Toolbar />
@@ -18,6 +21,7 @@ function Shell() {
         <Panel />
       </div>
       <ExportDialog />
+      <SearchDialog />
       <Toast />
       <DocumentTitle />
     </div>
